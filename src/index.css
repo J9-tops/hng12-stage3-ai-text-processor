@@ -1,1 +1,12 @@
 @import "tailwindcss";
+
+@theme {
+  --color-greyish: #e2e8f0;
+  --color-greyish2: #f8fafc;
+  --color-greyish3: #cbd5e1;
+
+  --breakpoint-xxs: 300px;
+  --breakpoint-xs: 350px;
+  --breakpoint-xsmd: 430px;
+  --breakpoint-xslg: 550px;
+}
