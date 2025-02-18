@@ -6,7 +6,7 @@ import Sidebar from "./Sidebar";
 const RootLayout = () => {
   const { openMenu, toggleMenu } = useMenu();
   return (
-    <div className="flex min-h-screen flex-col">
+    <div className="grid-layout flex min-h-screen flex-col md:grid">
       <Header toggleMenu={toggleMenu} />
       <Sidebar openMenu={openMenu} toggleMenu={toggleMenu} />
       <Outlet />

@@ -10,3 +10,21 @@
   --breakpoint-xsmd: 430px;
   --breakpoint-xslg: 550px;
 }
+
+.grid-layout {
+  grid-template-columns: 0.5fr 2fr;
+  grid-template-rows: 80px 1fr;
+  grid-template-areas:
+    "sidebar header "
+    "sidebar main";
+}
+
+.header {
+  grid-area: header;
+}
+.sidebar {
+  grid-area: sidebar;
+}
+.main {
+  grid-area: main;
+}

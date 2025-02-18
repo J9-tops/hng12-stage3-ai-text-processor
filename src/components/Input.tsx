@@ -3,7 +3,7 @@ import Button from "./Button";
 
 const Input = () => {
   return (
-    <form className="relative flex w-full px-6 py-4">
+    <form className="border-greyish3 relative flex w-full border-t border-solid px-6 py-4 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.1)]">
       <textarea
         rows={2}
         placeholder="Enter your text ..."

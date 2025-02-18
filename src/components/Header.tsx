@@ -7,8 +7,8 @@ import Button from "./Button";
 import logo from "/Logo.png";
 const Header = ({ toggleMenu }: TMenuProps) => {
   return (
-    <header className="max-h-[184px] md:max-h-20">
-      <section className="border-greyish hidden items-center justify-between border-b border-solid px-8 py-5 md:flex">
+    <header className="header md:border-greyish max-h-[184px] md:max-h-20 md:w-full md:border-b md:border-solid">
+      <section className="border-greyish hidden items-center justify-between border-b border-solid px-8 py-5 md:flex md:border-0">
         <Link to="/">
           <img src={logo} alt="slothGPT logo" className="h-[38px]" />
         </Link>
