@@ -9,14 +9,14 @@ const Sidebar = ({ openMenu, toggleMenu }: TMenuProps) => {
   console.log("openMenu", openMenu);
   return (
     <aside
-      className={`sidebar absolute top-0 z-50 flex h-screen w-screen md:relative md:left-0 md:block md:w-full ${openMenu ? "left-0" : "-left-full"}`}
+      className={`sidebar mdlg:relative mdlg:left-0 mdlg:block mdlg:w-full absolute top-0 z-50 flex h-screen w-screen ${openMenu ? "left-0" : "-left-full"}`}
     >
-      <nav className="bg-greyish2 border-greyish3 h-full w-[80%] border-r border-solid md:w-full">
-        <header className="border-greyish3 flex items-center justify-between border-b border-solid px-6 py-4 md:h-[80px]">
-          <Link to="/" className="md:hidden">
+      <nav className="bg-greyish2 border-greyish3 mdlg:w-full h-full w-[80%] border-r border-solid">
+        <header className="border-greyish3 mdlg:h-[80px] flex items-center justify-between border-b border-solid px-6 py-4">
+          <Link to="/" className="mdlg:hidden">
             <img src={logo} alt="slothGPT logo" className="h-[38px]" />
           </Link>
-          <Button className="text-2xl md:ml-auto">
+          <Button className="mdlg:ml-auto text-2xl">
             <MdOpenInNew />
           </Button>
         </header>
@@ -27,7 +27,7 @@ const Sidebar = ({ openMenu, toggleMenu }: TMenuProps) => {
       </nav>
 
       <div
-        className="w-[20%] bg-transparent backdrop-blur-[2px] md:hidden"
+        className="mdlg:hidden w-[20%] bg-transparent backdrop-blur-[2px]"
         onClick={toggleMenu}
       ></div>
     </aside>

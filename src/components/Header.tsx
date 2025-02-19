@@ -7,8 +7,8 @@ import Button from "./Button";
 import logo from "/Logo.png";
 const Header = ({ toggleMenu }: TMenuProps) => {
   return (
-    <header className="header md:border-greyish max-h-[184px] md:max-h-20 md:w-full md:border-b md:border-solid">
-      <section className="border-greyish hidden items-center justify-between border-b border-solid px-8 py-5 md:flex md:border-0">
+    <header className="header mdlg:border-greyish mdlg:max-h-20 mdlg:w-full mdlg:border-b mdlg:border-solid max-h-[184px]">
+      <section className="border-greyish mdlg:flex mdlg:border-0 hidden items-center justify-between border-b border-solid px-8 py-5">
         <Link to="/">
           <img src={logo} alt="slothGPT logo" className="h-[38px]" />
         </Link>
@@ -24,7 +24,7 @@ const Header = ({ toggleMenu }: TMenuProps) => {
           <RxAvatar className="text-3xl" />
         </div>
       </section>
-      <section className="border-greyish flex items-center justify-between border-b border-solid p-4 md:hidden">
+      <section className="border-greyish mdlg:hidden flex items-center justify-between border-b border-solid p-4">
         <Link to="/">
           <img src={logo} alt="slothGPT logo" className="h-8" />
         </Link>
@@ -32,7 +32,7 @@ const Header = ({ toggleMenu }: TMenuProps) => {
           <RxHamburgerMenu />
         </Button>
       </section>
-      <section className="border-greyish flex items-center justify-between border-b border-solid px-4 py-5 md:hidden">
+      <section className="border-greyish mdlg:hidden flex items-center justify-between border-b border-solid px-4 py-5">
         <div className="flex gap-2">
           <Button>
             <MdOutlineWbSunny />

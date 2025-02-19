@@ -6,7 +6,7 @@ import Response from "./Response";
 const ChatArea = () => {
   const { messages, loading } = useSelector((state: RootState) => state.chat);
   return (
-    <div className="flex-1 px-5 py-4 md:h-full md:w-full">
+    <div className="mdlg:h-full mdlg:w-full flex-1 px-5 py-4">
       {messages.map((msg) =>
         msg.sender === "user" ? (
           <Question key={msg.id} text={msg.text} />

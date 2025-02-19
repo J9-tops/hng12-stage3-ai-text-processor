@@ -9,6 +9,7 @@
   --breakpoint-xs: 350px;
   --breakpoint-xsmd: 430px;
   --breakpoint-xslg: 550px;
+  --breakpoint-mdlg: 900px;
 }
 
 .grid-layout {
