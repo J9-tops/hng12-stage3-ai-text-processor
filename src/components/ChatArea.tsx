@@ -1,11 +1,20 @@
+import { useSelector } from "react-redux";
+import { RootState } from "../store/store";
 import Question from "./Question";
 import Response from "./Response";
 
 const ChatArea = () => {
+  const { messages, loading } = useSelector((state: RootState) => state.chat);
   return (
     <div className="flex-1 px-5 py-4 md:h-full md:w-full">
-      <Question text="what is a dog" />
-      <Response text="it is an animal" />
+      {messages.map((msg) =>
+        msg.sender === "user" ? (
+          <Question key={msg.id} text={msg.text} />
+        ) : (
+          <Response key={msg.id} text={msg.text} />
+        ),
+      )}
+      {loading && <Response text="Detecting language..." />}
     </div>
   );
 };
