@@ -13,9 +13,18 @@ declare global {
         }) => Promise<LanguageDetectorInstance>;
       };
       translator: {
-        capabilities: () => Promise<{
-          languagePairAvailable: (source: string, target: string) => boolean;
-        }>;
+        capabilities: () => {
+          available: "no" | "readily" | "after-download";
+          languagePairAvailable: (
+            sourceLang: string,
+            targetLang: string,
+          ) => "no" | "readily" | "after-download";
+        };
+        create: (options: {
+          sourceLanguage: string;
+          targetLanguage: string;
+          monitor?: (m: EventTarget) => void;
+        }) => Promise<TranslatorInstance>;
       };
       summarizer: {
         capabilities: () => {
@@ -38,35 +47,14 @@ interface LanguageDetectorInstance {
   ready?: Promise<void>;
 }
 
-interface DetectedLanguage {
-  detectedLanguage: string;
-  confidence: number; // 0.0 - 1.0
+interface TranslatorInstance {
+  translate: (text: string) => Promise<string>;
+  ready?: Promise<void>;
 }
 
-interface TranslationAPI {
-  canTranslate: (options: {
-    sourceLanguage: string;
-    targetLanguage: string;
-  }) => Promise<void>;
-  translate: (options: {
-    sourceLanguage: string;
-    targetLanguage: string;
-    text: string;
-  }) => Promise<string>;
-  downloadprogress: {
-    addEventListener: (
-      event: string,
-      callback: (event: ProgressEvent) => void,
-    ) => void;
-  };
-  capabilities: () => Promise<void>;
-  createTranslator: (options: {
-    sourceLanguage: string;
-    targetLanguage: string;
-    monitor?: (m: EventTarget) => void;
-  }) => Promise<{
-    translate: (text: string) => Promise<string>;
-  }>;
+interface DetectedLanguage {
+  detectedLanguage: string;
+  confidence: number;
 }
 
 interface SummarizerInstance {

@@ -28,3 +28,9 @@ export type TSummarizerOptions = {
   format?: "plain-text" | "markdown";
   length?: "short" | "medium" | "long";
 };
+
+export type TTranslatorOptions = {
+  text: string;
+  sourceLang: string;
+  targetLang: string;
+};

@@ -1,15 +1,8 @@
-export const SUPPORTED_LANGUAGES = ["en", "es", "pt", "ru", "tr", "fr"];
-
-export type TSupportedLanguages = (typeof SUPPORTED_LANGUAGES)[number];
-
-export const LANGUAGES: {
-  identifier: TSupportedLanguages;
-  name: string;
-}[] = [
-  { identifier: "en", name: "English" },
-  { identifier: "es", name: "Spanish" },
-  { identifier: "pt", name: "Portuguese" },
-  { identifier: "ru", name: "Russian" },
-  { identifier: "tr", name: "Turkish" },
-  { identifier: "fr", name: "French" },
+export const LANGUAGES = [
+  { id: "english", label: "English", value: "en" },
+  { id: "portuguese", label: "Portuguese", value: "pt" },
+  { id: "spanish", label: "Spanish", value: "es" },
+  { id: "russian", label: "Russian", value: "ru" },
+  { id: "turkish", label: "Turkish", value: "tr" },
+  { id: "french", label: "French", value: "fr" },
 ];

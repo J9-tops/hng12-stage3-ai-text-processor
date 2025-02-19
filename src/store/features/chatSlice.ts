@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { TSummarizerOptions } from "../../types";
+import { TSummarizerOptions, TTranslatorOptions } from "../../types";
 
 type Message = {
   id: number;
@@ -14,11 +14,13 @@ type ChatState = {
   summarizedText?: string;
   loading: boolean;
   error?: string;
+  translatedText?: string;
 };
 
 const initialState: ChatState = {
   messages: [],
   summarizedText: "",
+  translatedText: "",
   error: "",
   loading: false,
 };
@@ -117,6 +119,65 @@ export const summarizeText = createAsyncThunk(
   },
 );
 
+export const translateText = createAsyncThunk(
+  "chat/translateText",
+  async (
+    { text, sourceLang, targetLang }: TTranslatorOptions,
+    { rejectWithValue },
+  ) => {
+    console.log("text. source target", text, sourceLang, targetLang);
+    if (!("ai" in self) || !("translator" in self.ai)) {
+      return "Translator not supported";
+    }
+
+    if (sourceLang === targetLang) {
+      return resetTranslation();
+    }
+
+    try {
+      const capabilities = await self.ai.translator.capabilities();
+      const availability = capabilities.languagePairAvailable(
+        sourceLang,
+        targetLang,
+      );
+
+      if (capabilities.available === "no") {
+        return rejectWithValue(
+          "Translation unavailable for the selected languages",
+        );
+      }
+
+      let translator;
+      if (availability === "readily") {
+        translator = await self.ai.translator.create({
+          sourceLanguage: sourceLang,
+          targetLanguage: targetLang,
+        });
+      } else {
+        translator = await self.ai.translator.create({
+          sourceLanguage: sourceLang,
+          targetLanguage: targetLang,
+          monitor(m) {
+            m.addEventListener("downloadprogress", (e) => {
+              const progressEvent = e as ProgressEvent;
+              console.log(
+                `Downloaded ${progressEvent.loaded} of ${progressEvent.total} bytes.`,
+              );
+            });
+          },
+        });
+        await translator.ready;
+      }
+
+      const translatedText = await translator.translate(text);
+      return translatedText;
+    } catch (error) {
+      console.error("Translation error:", error);
+      return rejectWithValue("Error summarizing text");
+    }
+  },
+);
+
 const chatSlice = createSlice({
   name: "chat",
   initialState,
@@ -127,6 +188,9 @@ const chatSlice = createSlice({
         text: action.payload.text,
         sender: action.payload.sender,
       });
+    },
+    resetTranslation: (state) => {
+      state.translatedText = "";
     },
   },
   extraReducers: (builder) => {
@@ -164,9 +228,37 @@ const chatSlice = createSlice({
       .addCase(summarizeText.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload as string;
+      })
+      .addCase(translateText.pending, (state) => {
+        state.loading = true;
+        state.error = "";
+      })
+      .addCase(
+        translateText.fulfilled,
+        (
+          state,
+          action: PayloadAction<
+            string | { payload: undefined; type: "chat/resetTranslation" }
+          >,
+        ) => {
+          state.loading = false;
+          if (typeof action.payload === "string") {
+            state.messages.push({
+              id: state.messages.length + 1,
+              text: action.payload,
+              sender: "ai",
+            });
+          } else {
+            state.translatedText = "";
+          }
+        },
+      )
+      .addCase(translateText.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload as string;
       });
   },
 });
 
-export const { addMessage } = chatSlice.actions;
+export const { addMessage, resetTranslation } = chatSlice.actions;
 export default chatSlice.reducer;
