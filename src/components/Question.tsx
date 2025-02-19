@@ -12,7 +12,7 @@ const Question = ({ text }: { text: string }) => {
               <div className="flex max-w-full flex-grow flex-col">
                 <div className="text-message flex min-h-8 w-full flex-col items-end gap-2 text-start break-words whitespace-normal [.text-message+&]:mt-5">
                   <div className="flex w-full flex-col items-end gap-1 empty:hidden rtl:items-start">
-                    <div className="relative max-w-[var(--user-chat-width,70%)] rounded-3xl bg-slate-100 px-5 py-2.5">
+                    <div className="right relative max-w-[var(--user-chat-width,70%)] rounded-3xl bg-slate-100 px-5 py-2.5">
                       <p className="whitespace-pre-wrap">{text}</p>
                     </div>
                   </div>
