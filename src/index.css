@@ -13,8 +13,8 @@
 }
 
 body {
-  height: 100vh;
-  overflow-x: hidden;
+  height: 105vh;
+  overflow: hidden;
 }
 
 .sentence-case::first-letter {

@@ -4,7 +4,7 @@ const Question = ({ text }: { text: string }) => {
       className="text-token-text-primary w-full text-left focus-visible:outline-2 focus-visible:outline-offset-[-4px]"
       dir="auto"
     >
-      <h5 className="sr-only">You said:</h5>
+      <p className="sr-only">You said:</p>
       <div className="px-2 py-[18px] text-base">
         <div className="ml-auto flex flex-1 gap-4 text-base md:max-w-3xl md:gap-5 lg:max-w-[40rem] lg:gap-6 xl:max-w-[48rem]">
           <div className="group/conversation-turn relative flex w-full min-w-0 flex-col @xs/thread:px-0 @sm/thread:px-1.5 @md/thread:px-4">
