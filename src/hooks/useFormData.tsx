@@ -72,9 +72,9 @@ const useFormData = (text: string = "", responseId: number = 0) => {
         langCode = detectedLang.split(": ")[1].split(" ")[0];
         setSourceLanguage(langCode);
       }
-
-      dispatch(addMessage({ text: message, sender: "ai", language: langCode }));
     }, 500);
+    console.log("working");
+    dispatch(addMessage({ text: message, sender: "ai", language: langCode }));
   };
 
   return {

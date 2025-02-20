@@ -35,7 +35,14 @@ const Response = ({ text, responseId }: Props) => {
 
   const outputText = formatDetectedLanguage(originalText);
 
-  const currentLanguage = detectedLanguage && getLanguageName(detectedLanguage);
+  const check = response?.language !== undefined && detectedLanguage;
+  console.log(detectedLanguage, "check");
+
+  const currentLanguage =
+    !check && detectedLanguage && getLanguageName(detectedLanguage);
+
+  console.log(response?.language, "ressponse lang");
+  console.log(currentLanguage, "current land");
 
   return (
     <article className="text-token-text-primary w-full focus-visible:outline-2 focus-visible:outline-offset-[-4px]">
@@ -49,6 +56,7 @@ const Response = ({ text, responseId }: Props) => {
                   <div className="flex w-full flex-col gap-1 first:pt-[3px] empty:hidden">
                     <div className="left w-[70%] border border-solid border-gray-200 bg-gray-200 p-2 break-words">
                       <p className="sentence-case mb-2">{outputText}</p>
+
                       {!isDetectionMessage && (
                         <div className="xslg:flex-row flex flex-col justify-between gap-4 pt-2">
                           {text.length > 150 && (
@@ -60,12 +68,15 @@ const Response = ({ text, responseId }: Props) => {
                             </Button>
                           )}
                           <div className="ml-auto flex flex-col gap-4">
-                            <p>
-                              Text in{" "}
-                              <span className="font-bold">
-                                {currentLanguage}
-                              </span>
-                            </p>
+                            {currentLanguage && (
+                              <p>
+                                Text in{" "}
+                                <span className="font-bold">
+                                  {currentLanguage}
+                                </span>
+                              </p>
+                            )}
+
                             <div className="xsmd:flex-row flex flex-col items-center gap-1">
                               <p>Translate to: </p>
 
