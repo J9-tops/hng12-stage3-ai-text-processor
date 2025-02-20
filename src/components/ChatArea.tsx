@@ -5,7 +5,6 @@ import Response from "./Response";
 
 const ChatArea = () => {
   const { messages, loading } = useSelector((state: RootState) => state.chat);
-  console.log("messages", messages);
 
   return (
     <section

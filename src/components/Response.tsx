@@ -36,13 +36,9 @@ const Response = ({ text, responseId }: Props) => {
   const outputText = formatDetectedLanguage(originalText);
 
   const check = response?.language !== undefined && detectedLanguage;
-  console.log(detectedLanguage, "check");
 
   const currentLanguage =
     !check && detectedLanguage && getLanguageName(detectedLanguage);
-
-  console.log(response?.language, "ressponse lang");
-  console.log(currentLanguage, "current land");
 
   return (
     <article className="text-token-text-primary w-full focus-visible:outline-2 focus-visible:outline-offset-[-4px]">

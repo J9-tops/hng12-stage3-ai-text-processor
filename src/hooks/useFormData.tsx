@@ -73,7 +73,6 @@ const useFormData = (text: string = "", responseId: number = 0) => {
         setSourceLanguage(langCode);
       }
     }, 500);
-    console.log("working");
     dispatch(addMessage({ text: message, sender: "ai", language: langCode }));
   };
 
