@@ -10,9 +10,10 @@ type Props = {
 };
 
 const Response = ({ text, responseId }: Props) => {
-  const isDetectionMessage = text
-    .toLowerCase()
-    .startsWith("detected language:");
+  const isDetectionMessage =
+    /(detected language:|language detection not supported|language detection unavailable|no language detected|error detecting language)/i.test(
+      text,
+    );
 
   const { originalText, handleLanguageChange, handleSummarize } = useFormData(
     text,
