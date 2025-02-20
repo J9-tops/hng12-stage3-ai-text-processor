@@ -8,7 +8,7 @@ const ChatArea = () => {
 
   return (
     <section
-      className="mdlg:w-full h-[calc(100vh-80px-99px)] flex-1 overflow-y-auto px-5 py-4"
+      className="mdlg:w-full h-[calc(100vh-60px-99px)] overflow-y-auto px-5 py-4"
       aria-labelledby="chat area"
       tabIndex={0}
       role="region"
@@ -21,6 +21,12 @@ const ChatArea = () => {
         ),
       )}
       {loading && <Response text="Loading ..." responseId={0} />}
+      {messages.length < 1 && (
+        <div>
+          BearAi helps in translating, detection of language, and summarization
+          of text
+        </div>
+      )}
     </section>
   );
 };
