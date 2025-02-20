@@ -8,7 +8,7 @@ const ChatArea = () => {
 
   return (
     <section
-      className="mdlg:w-full h-[calc(100vh-56px-100px)] overflow-x-hidden overflow-y-auto px-5 py-4"
+      className="mdlg:w-full flex-1 overflow-x-hidden overflow-y-auto px-5 py-4 lg:h-[calc(100vh-56px-100px)]"
       aria-labelledby="chat area"
       tabIndex={0}
       role="region"
@@ -30,7 +30,7 @@ const ChatArea = () => {
             Want a translation or a summary? Just enter your text, and I'll take
             care of the rest! I also detect languages.
           </p>
-          <p className="text-xl font-bold text-red-500">
+          <p className="last-center text-xl font-bold text-red-500">
             Please ensure you are using chrome browser!
           </p>
         </div>
