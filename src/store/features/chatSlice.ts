@@ -193,6 +193,10 @@ const chatSlice = createSlice({
         language: action.payload.language,
       });
     },
+    resetChat: (state) => {
+      state.messages = [];
+      state.submittedMessage = "";
+    },
     setSelectedLanguage: (state, action: PayloadAction<string>) => {
       state.language = action.payload;
     },
@@ -302,5 +306,6 @@ export const {
   resetTranslation,
   updateSubmittedMessage,
   toggleTranslate,
+  resetChat,
 } = chatSlice.actions;
 export default chatSlice.reducer;
