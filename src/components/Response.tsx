@@ -26,6 +26,7 @@ const Response = ({ text, responseId }: Props) => {
   );
 
   const messages = useSelector((state: RootState) => state.chat.messages);
+  const loading = useSelector((state: RootState) => state.chat.loading);
   const response = messages.find((msg) => msg.id === responseId);
   const detectedLanguage = response?.language;
 
@@ -53,7 +54,7 @@ const Response = ({ text, responseId }: Props) => {
                     <div className="left w-[70%] border border-solid border-gray-200 bg-gray-200 p-2 break-words">
                       <p className="sentence-case mb-2">{outputText}</p>
 
-                      {!isDetectionMessage && (
+                      {!isDetectionMessage && !loading && (
                         <div className="xslg:flex-row flex flex-col justify-between gap-4 pt-2">
                           {text.length > 150 && (
                             <Button
