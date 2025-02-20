@@ -30,6 +30,9 @@ const ChatArea = () => {
             Want a translation or a summary? Just enter your text, and I'll take
             care of the rest! I also detect languages.
           </p>
+          <p className="text-xl font-bold text-red-500">
+            Please ensure you are using chrome browser!
+          </p>
         </div>
       )}
     </section>
