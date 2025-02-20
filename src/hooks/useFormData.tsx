@@ -33,9 +33,6 @@ const useFormData = (text: string = "", responseId: number = 0) => {
   ) => {
     const newTargetLang = event.target.value;
 
-    console.log("newTargetLang", newTargetLang);
-    console.log("translated text:", translatedText);
-
     setSourceLanguage(selectedLanguage);
 
     setSelectedLanguage(newTargetLang);
@@ -60,8 +57,19 @@ const useFormData = (text: string = "", responseId: number = 0) => {
   const handleSummarize = () => {
     const langCode = "en";
     setTimeout(async () => {
-      const result = await dispatch(summarizeText(message)).unwrap();
-      dispatch(addMessage({ text: result, sender: "ai", language: langCode }));
+      const result = await dispatch(summarizeText(message));
+      console.log("result", result);
+      const summarizedText = result.payload as string;
+
+      if (summarizedText) {
+        dispatch(
+          addMessage({
+            text: summarizedText,
+            sender: "ai",
+            language: langCode,
+          }),
+        );
+      }
     }, 500);
   };
 
@@ -72,7 +80,6 @@ const useFormData = (text: string = "", responseId: number = 0) => {
     let langCode = "en";
 
     dispatch(updateSubmittedMessage(message));
-    console.log("submitted message", submittedMessage);
 
     setOriginalText(message);
     setTranslatedText("");

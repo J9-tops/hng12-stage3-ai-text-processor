@@ -23,8 +23,6 @@ const Response = ({ text, responseId }: Props) => {
   const response = messages.find((msg) => msg.id === responseId);
   const detectedLanguage = response?.language;
 
-  console.log(detectedLanguage, "response");
-
   return (
     <article className="text-token-text-primary w-full focus-visible:outline-2 focus-visible:outline-offset-[-4px]">
       <h6 className="sr-only">SlothUI said:</h6>

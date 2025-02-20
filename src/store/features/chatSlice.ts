@@ -79,8 +79,6 @@ export const detectLanguage = createAsyncThunk(
 export const summarizeText = createAsyncThunk(
   "chat/summarizeText",
   async (text: string, { rejectWithValue }) => {
-    if (text.length <= 150) return text;
-
     try {
       if (!("ai" in self) || !("summarizer" in self.ai)) {
         return "Summarizer not supported";
@@ -130,7 +128,6 @@ export const translateText = createAsyncThunk(
     { text, sourceLang, targetLang }: TTranslatorOptions,
     { rejectWithValue },
   ) => {
-    console.log("text. source target", text, sourceLang, targetLang);
     if (!("ai" in self) || !("translator" in self.ai)) {
       return "Translator not supported";
     }
@@ -234,13 +231,16 @@ const chatSlice = createSlice({
         state.loading = true;
         state.error = "";
       })
-      .addCase(
-        summarizeText.fulfilled,
-        (state, action: PayloadAction<string | undefined>) => {
-          state.loading = false;
-          state.summarizedText = action.payload ?? "";
-        },
-      )
+      .addCase(summarizeText.fulfilled, (state, action) => {
+        state.loading = false;
+        // state.summarizedText = action.payload;
+        state.messages.push({
+          id: state.messages.length + 1,
+          text: action.payload,
+          sender: "ai",
+          language: "",
+        });
+      })
       .addCase(summarizeText.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload as string;
@@ -270,7 +270,7 @@ const chatSlice = createSlice({
                   : "",
               sender: "ai",
               language:
-                "targetLang" in action.payload ? action.payload.targetLang : "", // ✅ Extract targetLang correctly
+                "targetLang" in action.payload ? action.payload.targetLang : "",
             });
           }
         },
