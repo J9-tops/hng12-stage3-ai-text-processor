@@ -14,7 +14,7 @@
 
 body {
   height: 105vh;
-  overflow: hidden;
+  overflow-y: auto;
 }
 
 .sentence-case::first-letter {
