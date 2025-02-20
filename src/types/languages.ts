@@ -24,3 +24,7 @@ export const formatDetectedLanguage = (text: string) => {
   }
   return text;
 };
+
+export function getLanguageName(code: string): string {
+  return languageMap[code] || "Unknown Language";
+}

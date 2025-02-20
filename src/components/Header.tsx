@@ -29,7 +29,7 @@ const Header = () => {
         </Link>
         {messages.length > 1 && (
           <Button
-            className="text-2xl hover:text-red-500"
+            className="xs:absolute xs:top-25 text-2xl hover:text-red-500 lg:relative lg:top-0"
             title="Delete all messages"
             ariaLabel="delet all messages"
             onClick={deleteMessages}

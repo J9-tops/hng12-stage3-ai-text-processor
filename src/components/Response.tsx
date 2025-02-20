@@ -1,7 +1,12 @@
+import { useState } from "react";
 import { useSelector } from "react-redux";
 import useFormData from "../hooks/useFormData";
 import { RootState } from "../store/store";
-import { formatDetectedLanguage, LANGUAGES } from "../types/languages";
+import {
+  formatDetectedLanguage,
+  getLanguageName,
+  LANGUAGES,
+} from "../types/languages";
 import Button from "./Button";
 
 type Props = {
@@ -24,7 +29,13 @@ const Response = ({ text, responseId }: Props) => {
   const response = messages.find((msg) => msg.id === responseId);
   const detectedLanguage = response?.language;
 
+  const [selectedLanguage, setSelectedLanguage] = useState(
+    detectedLanguage || "",
+  );
+
   const outputText = formatDetectedLanguage(originalText);
+
+  const currentLanguage = detectedLanguage && getLanguageName(detectedLanguage);
 
   return (
     <article className="text-token-text-primary w-full focus-visible:outline-2 focus-visible:outline-offset-[-4px]">
@@ -43,37 +54,55 @@ const Response = ({ text, responseId }: Props) => {
                           {text.length > 150 && (
                             <Button
                               onClick={handleSummarize}
-                              className="cursor-pointer rounded-lg bg-slate-400 p-2 text-white shadow-[0_3px_5px_rgba(0,0,0,0.6)] transition-all duration-300 ease-in-out hover:shadow-none"
+                              className="h-fit cursor-pointer rounded-lg bg-slate-400 p-2 text-white shadow-[0_3px_5px_rgba(0,0,0,0.6)] transition-all duration-300 ease-in-out hover:shadow-none"
                             >
                               Summarize
                             </Button>
                           )}
-                          <div className="xsmd:flex-row ml-auto flex flex-col items-center gap-1">
-                            <p>Translate to: </p>
+                          <div className="ml-auto flex flex-col gap-4">
+                            <p>
+                              Text in{" "}
+                              <span className="font-bold">
+                                {currentLanguage}
+                              </span>
+                            </p>
+                            <div className="xsmd:flex-row flex flex-col items-center gap-1">
+                              <p>Translate to: </p>
 
-                            <select
-                              name="languages"
-                              id="language-select"
-                              title="Select a language to translate to"
-                              value={detectedLanguage || ""}
-                              onChange={handleLanguageChange}
-                              className="border-slate-600-500 rounded-lg border border-solid bg-slate-300 p-1 backdrop-blur-2xl"
+                              <select
+                                name="languages"
+                                id="language-select"
+                                title="Select a language to translate to"
+                                value={selectedLanguage}
+                                onChange={(e) =>
+                                  setSelectedLanguage(e.target.value)
+                                }
+                                className="border-slate-600-500 rounded-lg border border-solid bg-slate-300 p-1 backdrop-blur-2xl"
+                              >
+                                <option value="english" disabled>
+                                  {" "}
+                                </option>
+                                {LANGUAGES.map(({ id, label, value }) => {
+                                  return (
+                                    <option
+                                      key={id}
+                                      value={value}
+                                      className="opacity-35"
+                                    >
+                                      {label}
+                                    </option>
+                                  );
+                                })}
+                              </select>
+                            </div>
+                            <Button
+                              onClick={() =>
+                                handleLanguageChange(selectedLanguage)
+                              }
+                              className="ml-auto w-fit cursor-pointer rounded-lg bg-slate-400 p-2 text-white shadow-[0_3px_5px_rgba(0,0,0,0.6)] transition-all duration-300 ease-in-out hover:shadow-none"
                             >
-                              <option value="english" disabled>
-                                {" "}
-                              </option>
-                              {LANGUAGES.map(({ id, label, value }) => {
-                                return (
-                                  <option
-                                    key={id}
-                                    value={value}
-                                    className="opacity-35"
-                                  >
-                                    {label}
-                                  </option>
-                                );
-                              })}
-                            </select>
+                              Translate
+                            </Button>
                           </div>{" "}
                         </div>
                       )}

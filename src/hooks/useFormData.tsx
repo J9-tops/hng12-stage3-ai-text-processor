@@ -28,15 +28,9 @@ const useFormData = (text: string = "", responseId: number = 0) => {
   );
 
   const dispatch: AppDispatch = useDispatch();
-  const handleLanguageChange = (
-    event: React.ChangeEvent<HTMLSelectElement>,
-  ) => {
-    const newTargetLang = event.target.value;
-
+  const handleLanguageChange = (newTargetLang: string) => {
     setSourceLanguage(selectedLanguage);
-
     setSelectedLanguage(newTargetLang);
-
     setTranslatedText("");
 
     dispatch(
