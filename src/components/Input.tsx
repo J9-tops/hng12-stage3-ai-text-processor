@@ -4,6 +4,13 @@ import Button from "./Button";
 
 const Input = () => {
   const { handleSubmit, setMessage, message } = useFormData();
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault();
+      handleSubmit(e);
+    }
+  };
   return (
     <form
       onSubmit={handleSubmit}
@@ -15,6 +22,7 @@ const Input = () => {
         onChange={(e) => setMessage(e.target.value)}
         placeholder="Enter your text ..."
         className="border-greyish3 w-full rounded-2xl border border-solid p-2 pr-13 shadow-lg"
+        onKeyDown={handleKeyDown}
       />
       <Button
         type="submit"

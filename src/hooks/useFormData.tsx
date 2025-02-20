@@ -3,61 +3,90 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   addMessage,
   detectLanguage,
-  summarizeText,
+  resetTranslation,
   translateText,
+  updateSubmittedMessage,
 } from "../store/features/chatSlice";
 import { AppDispatch, RootState } from "../store/store";
 
-const useFormData = (text: string = "") => {
+const useFormData = (text: string = "", responseId: number = 0) => {
   const [message, setMessage] = useState("");
-  const dispatch: AppDispatch = useDispatch();
 
-  const translatedText = useSelector(
-    (state: RootState) => state.chat.translatedText,
-  );
-  const [selectedLanguage, setSelectedLanguage] = useState<string>("en");
   const [sourceLanguage, setSourceLanguage] = useState<string>("en");
-  const [originalText] = useState(text);
+  const [originalText, setOriginalText] = useState<string>(text);
+  const [translatedText, setTranslatedText] = useState("");
 
+  const messages = useSelector((state: RootState) => state.chat.messages);
+  const submittedMessage = useSelector(
+    (state: RootState) => state.chat.submittedMessage,
+  );
+
+  const response = messages.find((msg) => msg.id === responseId);
+  const [selectedLanguage, setSelectedLanguage] = useState(
+    response?.language ?? "en",
+  );
+
+  const dispatch: AppDispatch = useDispatch();
   const handleLanguageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const newTargetLang = event.target.value;
 
-    if (newTargetLang === selectedLanguage) return;
+    console.log("newTargetLang", newTargetLang);
+    console.log("translated text:", translatedText);
 
     setSourceLanguage(selectedLanguage);
 
     setSelectedLanguage(newTargetLang);
 
+    setTranslatedText("");
+
     dispatch(
       translateText({
-        text: translatedText || originalText,
+        text: submittedMessage,
         sourceLang: selectedLanguage,
         targetLang: newTargetLang,
       }),
-    );
+    ).then((result) => {
+      if (result.payload) {
+        if (result.payload && typeof result.payload === "string") {
+          setTranslatedText(result.payload);
+        }
+      }
+    });
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+
     if (!message.trim()) return;
+    let langCode = "en";
+
+    dispatch(updateSubmittedMessage(message));
+    console.log("submitted message", submittedMessage);
+
+    setOriginalText(message);
+    setTranslatedText("");
+    setSourceLanguage("en");
+    setSelectedLanguage("en");
+
+    dispatch(resetTranslation());
+
     dispatch(addMessage({ text: message, sender: "user" }));
 
     setTimeout(async () => {
       const detectedLang = await dispatch(detectLanguage(message)).unwrap();
 
       if (detectedLang && detectedLang.startsWith("Detected language: ")) {
-        const langCode = detectedLang.split(": ")[1].split(" ")[0];
+        langCode = detectedLang.split(": ")[1].split(" ")[0];
         setSourceLanguage(langCode);
       }
 
-      if (message.length > 150) {
-        const result = await dispatch(summarizeText(message)).unwrap();
-        dispatch(addMessage({ text: result, sender: "ai" }));
-      } else {
-        dispatch(addMessage({ text: message, sender: "ai" }));
-      }
+      // const result = await dispatch(summarizeText(message)).unwrap();
+      // dispatch(
+      //   addMessage({ text: result, sender: "ai", language: langCode }),
+      // );
+
+      dispatch(addMessage({ text: message, sender: "ai", language: langCode }));
     }, 500);
-    setMessage("");
   };
 
   return {

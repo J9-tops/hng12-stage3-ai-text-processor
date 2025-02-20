@@ -6,7 +6,6 @@ import PreviousChat from "./PreviousChat";
 import logo from "/Logo.png";
 
 const Sidebar = ({ openMenu, toggleMenu }: TMenuProps) => {
-  console.log("openMenu", openMenu);
   return (
     <aside
       className={`sidebar mdlg:relative mdlg:left-0 mdlg:block mdlg:w-full absolute top-0 z-50 flex h-screen w-screen ${openMenu ? "left-0" : "-left-full"}`}

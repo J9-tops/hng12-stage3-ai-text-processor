@@ -5,23 +5,26 @@ type Message = {
   id: number;
   text: string;
   sender: "user" | "ai";
+  language?: string;
 };
 
 type TChat = Omit<Message, "id">;
 
 type ChatState = {
   messages: Message[];
-  summarizedText?: string;
   loading: boolean;
   error?: string;
-  translatedText?: string;
+  language: string;
+  submittedMessage: string;
+  summarizedText?: string;
 };
 
 const initialState: ChatState = {
   messages: [],
   summarizedText: "",
-  translatedText: "",
   error: "",
+  language: "en",
+  submittedMessage: "",
   loading: false,
 };
 
@@ -130,10 +133,6 @@ export const translateText = createAsyncThunk(
       return "Translator not supported";
     }
 
-    if (sourceLang === targetLang) {
-      return resetTranslation();
-    }
-
     try {
       const capabilities = await self.ai.translator.capabilities();
       const availability = capabilities.languagePairAvailable(
@@ -170,7 +169,7 @@ export const translateText = createAsyncThunk(
       }
 
       const translatedText = await translator.translate(text);
-      return translatedText;
+      return { translatedText, targetLang };
     } catch (error) {
       console.error("Translation error:", error);
       return rejectWithValue("Error summarizing text");
@@ -187,10 +186,19 @@ const chatSlice = createSlice({
         id: state.messages.length + 1,
         text: action.payload.text,
         sender: action.payload.sender,
+        language: action.payload.language,
       });
     },
+    setSelectedLanguage: (state, action: PayloadAction<string>) => {
+      state.language = action.payload;
+    },
     resetTranslation: (state) => {
-      state.translatedText = "";
+      state.language = "en";
+      state.summarizedText = "";
+      state.error = "";
+    },
+    updateSubmittedMessage: (state, action) => {
+      state.submittedMessage = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -200,10 +208,13 @@ const chatSlice = createSlice({
       })
       .addCase(detectLanguage.fulfilled, (state, action) => {
         state.loading = false;
+        const detectedLangText = action.payload;
+        const langCode = detectedLangText.split(": ")[1].split(" ")[0];
         state.messages.push({
           id: state.messages.length + 1,
-          text: action.payload,
+          text: detectedLangText,
           sender: "ai",
+          language: langCode,
         });
       })
       .addCase(detectLanguage.rejected, (state) => {
@@ -238,18 +249,24 @@ const chatSlice = createSlice({
         (
           state,
           action: PayloadAction<
-            string | { payload: undefined; type: "chat/resetTranslation" }
+            | "Translator not supported"
+            | { payload: undefined; type: "chat/resetTranslation" }
+            | { translatedText: string; targetLang: string }
           >,
         ) => {
           state.loading = false;
-          if (typeof action.payload === "string") {
+
+          if (typeof action.payload === "object" && action.payload !== null) {
             state.messages.push({
               id: state.messages.length + 1,
-              text: action.payload,
+              text:
+                "translatedText" in action.payload
+                  ? action.payload.translatedText
+                  : "",
               sender: "ai",
+              language:
+                "targetLang" in action.payload ? action.payload.targetLang : "", // ✅ Extract targetLang correctly
             });
-          } else {
-            state.translatedText = "";
           }
         },
       )
@@ -260,5 +277,10 @@ const chatSlice = createSlice({
   },
 });
 
-export const { addMessage, resetTranslation } = chatSlice.actions;
+export const {
+  addMessage,
+  setSelectedLanguage,
+  resetTranslation,
+  updateSubmittedMessage,
+} = chatSlice.actions;
 export default chatSlice.reducer;
