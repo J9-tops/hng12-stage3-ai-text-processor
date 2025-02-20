@@ -3,14 +3,17 @@ import { Link } from "react-router-dom";
 import logo from "/Logo.png";
 const Header = () => {
   return (
-    <header className="border-greyish max-h-20 w-full border-b border-solid">
+    <header
+      className="border-greyish max-h-20 w-full border-b border-solid"
+      aria-label="bear ai header"
+    >
       <section className="border-greyish flex items-center justify-between border-0 border-b border-solid px-8 py-5">
         <Link to="/">
-          <img src={logo} alt="slothGPT logo" className="h-[38px]" />
+          <img src={logo} alt="bear ai logo" className="h-[38px]" />
         </Link>
 
-        <div>
-          <RxAvatar className="text-3xl" />
+        <div aria-label="user icon">
+          <RxAvatar className="cursor-pointer text-3xl" />
         </div>
       </section>
     </header>

@@ -18,6 +18,7 @@ const Input = () => {
       className="border-greyish3 relative flex w-full border-t border-solid px-6 py-4 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.1)]"
     >
       <textarea
+        autoFocus
         rows={2}
         value={message}
         onChange={(e) => setMessage(e.target.value)}

@@ -13,6 +13,7 @@ const Response = ({ text, responseId }: Props) => {
   const isDetectionMessage = text
     .toLowerCase()
     .startsWith("detected language:");
+  console.log(text, "text");
 
   const { originalText, handleLanguageChange, handleSummarize } = useFormData(
     text,
@@ -56,8 +57,8 @@ const Response = ({ text, responseId }: Props) => {
                               onChange={handleLanguageChange}
                               className="border-slate-600-500 rounded-lg border border-solid bg-slate-300 p-1 backdrop-blur-2xl"
                             >
-                              <option value="" disabled>
-                                Translate to:{" "}
+                              <option value="english" disabled>
+                                {" "}
                               </option>
                               {LANGUAGES.map(({ id, label, value }) => {
                                 return (

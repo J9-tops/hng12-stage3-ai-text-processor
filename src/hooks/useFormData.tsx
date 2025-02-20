@@ -45,15 +45,7 @@ const useFormData = (text: string = "", responseId: number = 0) => {
         sourceLang: selectedLanguage,
         targetLang: newTargetLang,
       }),
-    ).then((result) => {
-      dispatch(
-        addMessage({
-          text: result.payload as string,
-          sender: "ai",
-          language: selectedLanguage,
-        }),
-      );
-    });
+    );
   };
 
   const handleSummarize = () => {

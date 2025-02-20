@@ -32,15 +32,15 @@ const initialState: ChatState = {
 
 export const detectLanguage = createAsyncThunk(
   "chat/detectLanguage",
-  async (text: string) => {
+  async (text: string, { rejectWithValue }) => {
     try {
       if (!("ai" in self) || !("languageDetector" in self.ai)) {
-        return "Language detection not supported";
+        return rejectWithValue("Language detection not supported");
       }
 
       const capabilities = await self.ai.languageDetector.capabilities();
       if (capabilities.available === "no") {
-        return "Language detection unavailable";
+        return rejectWithValue("Language detection unavailable");
       }
 
       let detector;
@@ -62,7 +62,7 @@ export const detectLanguage = createAsyncThunk(
 
       const results = await detector.detect(text);
       if (results.length === 0) {
-        return "No language detected";
+        return rejectWithValue("No language detected");
       }
 
       const { detectedLanguage, confidence } = results[0];
@@ -71,22 +71,22 @@ export const detectLanguage = createAsyncThunk(
       ).toFixed(2)}%)`;
     } catch (error) {
       console.error("Language detection error:", error);
-      return "Error detecting language";
+      return rejectWithValue("Error detecting language");
     }
   },
 );
 
 export const summarizeText = createAsyncThunk(
   "chat/summarizeText",
-  async (text: string) => {
+  async (text: string, { rejectWithValue }) => {
     try {
       if (!("ai" in self) || !("summarizer" in self.ai)) {
-        return "Summarizer not supported";
+        return rejectWithValue("Summarizer not supported");
       }
 
       const capabilities = await self.ai.summarizer.capabilities();
       if (capabilities.available === "no") {
-        return "Summarizer unavailable";
+        return rejectWithValue("Summarizer unavailable");
       }
 
       const options: TSummarizerOptions = {
@@ -117,16 +117,19 @@ export const summarizeText = createAsyncThunk(
       return results;
     } catch (error) {
       console.error("Summarization error:", error);
-      return "Error summarizing text";
+      return rejectWithValue("Error summarizing text");
     }
   },
 );
 
 export const translateText = createAsyncThunk(
   "chat/translateText",
-  async ({ text, sourceLang, targetLang }: TTranslatorOptions) => {
+  async (
+    { text, sourceLang, targetLang }: TTranslatorOptions,
+    { rejectWithValue },
+  ) => {
     if (!("ai" in self) || !("translator" in self.ai)) {
-      return "Translator not supported";
+      return rejectWithValue("Translator not supported");
     }
 
     try {
@@ -135,9 +138,16 @@ export const translateText = createAsyncThunk(
         sourceLang,
         targetLang,
       );
+      if (availability === "no") {
+        return rejectWithValue(
+          "Translation not available for this language pair",
+        );
+      }
 
       if (capabilities.available === "no") {
-        return "Translation unavailable for the selected languages";
+        return rejectWithValue(
+          "Translation unavailable for the selected languages",
+        );
       }
 
       let translator;
@@ -166,7 +176,7 @@ export const translateText = createAsyncThunk(
       return { translatedText, targetLang };
     } catch (error) {
       console.error("Translation error:", error);
-      return "Error translating text";
+      return rejectWithValue("Error translating text");
     }
   },
 );
@@ -224,11 +234,11 @@ const chatSlice = createSlice({
           language: langCode,
         });
       })
-      .addCase(detectLanguage.rejected, (state) => {
+      .addCase(detectLanguage.rejected, (state, action) => {
         state.loading = false;
         state.messages.push({
           id: state.messages.length + 1,
-          text: "Error detecting language",
+          text: action.payload as string,
           sender: "ai",
         });
       })
@@ -238,7 +248,6 @@ const chatSlice = createSlice({
       })
       .addCase(summarizeText.fulfilled, (state, action) => {
         state.loading = false;
-        // state.summarizedText = action.payload;
         state.messages.push({
           id: state.messages.length + 1,
           text: action.payload,
@@ -248,6 +257,11 @@ const chatSlice = createSlice({
       })
       .addCase(summarizeText.rejected, (state, action) => {
         state.loading = false;
+        state.messages.push({
+          id: state.messages.length + 1,
+          text: action.payload as string,
+          sender: "ai",
+        });
         state.error = action.payload as string;
       })
       .addCase(translateText.pending, (state) => {
