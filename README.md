@@ -1,50 +1,40 @@
-# React + TypeScript + Vite
+# AI-Powered Text Processing Interface
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Overview
 
-Currently, two official plugins are available:
+This project is an AI-powered text processing interface built using React. The application integrates Chrome's AI APIs to provide users with text processing features such as:
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- **Language Detection**
+- **Summarization**
+- **Translation**
 
-## Expanding the ESLint configuration
+## Features
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+### Core Functionality
 
-- Configure the top-level `parserOptions` property like this:
+- **Language Detection:** The detected language is displayed below the output text.
+- **Summarization:** If the output text exceeds 150 characters and is in English, a "Summarize" button appears, allowing users to summarize the text using Chrome's AI Summarizer API.
+- **Translation:** Users can translate the output text into different languages using a dropdown menu.
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+## Setup and Installation
+
+### Prerequisites
+
+- Node.js and npm installed
+- Chrome AI API access
+
+### Steps to Run the Project
+
+```sh
+# Clone the repository
+git clone https://github.com/J9-tops/hng12-stage3-ai-text-processor
+cd hng12-stage3-ai-text-processor
+
+# Install dependencies
+npm install
+
+# Start the development server
+npm run dev
 ```
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
-
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
-
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
-```
+Open the application in a chrome browser (usually at `http://localhost:3000`).

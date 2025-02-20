@@ -8,7 +8,7 @@ const ChatArea = () => {
 
   return (
     <section
-      className="mdlg:w-full h-[calc(100vh-60px-99px)] overflow-y-auto px-5 py-4"
+      className="mdlg:w-full h-[calc(100vh-60px-99px)] overflow-x-hidden overflow-y-auto px-5 py-4"
       aria-labelledby="chat area"
       tabIndex={0}
       role="region"
@@ -22,9 +22,14 @@ const ChatArea = () => {
       )}
       {loading && <Response text="Loading ..." responseId={0} />}
       {messages.length < 1 && (
-        <div>
-          BearAi helps in translating, detection of language, and summarization
-          of text
+        <div className="flex h-full w-full flex-col items-center justify-center gap-4">
+          <p className="last-center text-2xl md:text-4xl">
+            How can I assist you? 🤔
+          </p>
+          <p className="last-center w-90 text-lg md:w-130 md:text-2xl">
+            Want a translation or a summary? Just enter your text, and I'll take
+            care of the rest! I also detect languages.
+          </p>
         </div>
       )}
     </section>
