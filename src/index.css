@@ -13,8 +13,8 @@
 }
 
 body {
-  height: 105vh;
-  overflow-y: auto;
+  height: 100vh;
+  overflow: hidden;
 }
 
 .sentence-case::first-letter {
@@ -24,7 +24,6 @@ body {
 .right {
   position: relative;
   text-align: right;
-
   padding: 10px 15px;
   border-radius: 6px;
   border: 1px solid #f1f5f9;
@@ -55,7 +54,6 @@ body {
 .left {
   position: relative;
   text-align: left;
-
   padding: 10px 15px;
   border-radius: 6px;
   border: 1px solid #e5e7eb;
@@ -81,14 +79,4 @@ body {
   left: -8px;
   border: 10px solid transparent;
   clear: both;
-}
-
-.header {
-  grid-area: header;
-}
-.sidebar {
-  grid-area: sidebar;
-}
-.main {
-  grid-area: main;
 }

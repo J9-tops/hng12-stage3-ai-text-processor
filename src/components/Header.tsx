@@ -21,7 +21,11 @@ const Header = () => {
     >
       <section className="border-greyish flex items-center justify-between border-0 border-b border-solid px-8 py-5">
         <Link to="/">
-          <img src={logo} alt="bear ai logo" className="h-[38px]" />
+          <img
+            src={logo}
+            alt="bear ai logo"
+            className="mdlg:h-[38px] h-[30px]"
+          />
         </Link>
         {messages.length > 1 && (
           <Button

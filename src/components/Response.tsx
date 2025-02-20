@@ -13,7 +13,6 @@ const Response = ({ text, responseId }: Props) => {
   const isDetectionMessage = text
     .toLowerCase()
     .startsWith("detected language:");
-  console.log(text, "text");
 
   const { originalText, handleLanguageChange, handleSummarize } = useFormData(
     text,
@@ -39,7 +38,7 @@ const Response = ({ text, responseId }: Props) => {
                     <div className="left w-[70%] border border-solid border-gray-200 bg-gray-200 p-2 break-words">
                       <p className="sentence-case mb-2">{outputText}</p>
                       {!isDetectionMessage && (
-                        <div className="flex justify-between pt-2">
+                        <div className="xslg:flex-row flex flex-col justify-between gap-4 pt-2">
                           {text.length > 150 && (
                             <Button
                               onClick={handleSummarize}
@@ -48,7 +47,7 @@ const Response = ({ text, responseId }: Props) => {
                               Summarize
                             </Button>
                           )}
-                          <div className="ml-auto flex items-center gap-1">
+                          <div className="xsmd:flex-row ml-auto flex flex-col items-center gap-1">
                             <p>Translate to: </p>
 
                             <select
