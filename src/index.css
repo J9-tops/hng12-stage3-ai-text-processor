@@ -85,9 +85,3 @@ body {
   border: 10px solid transparent;
   clear: both;
 }
-
-@media (max-width: 440px) and (max-height: 750px) {
-  .root-layout {
-    transform: scale(0.95);
-  }
-}
