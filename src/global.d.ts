@@ -58,7 +58,7 @@ interface DetectedLanguage {
 }
 
 interface SummarizerInstance {
-  summarize: (text: string) => Promise<string>;
+  summarize: (text: string, { context: string }) => Promise<string>;
   ready?: Promise<void>;
 }
 

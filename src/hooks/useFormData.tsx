@@ -50,15 +50,7 @@ const useFormData = (text: string = "", responseId: number = 0) => {
 
   const handleSummarize = () => {
     setTimeout(async () => {
-      await dispatch(summarizeText(message)).then((result) =>
-        dispatch(
-          addMessage({
-            text: result.payload as string,
-            sender: "ai",
-            language: selectedLanguage,
-          }),
-        ),
-      );
+      await dispatch(summarizeText(submittedMessage));
     }, 500);
   };
 

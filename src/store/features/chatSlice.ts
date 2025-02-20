@@ -113,8 +113,10 @@ export const summarizeText = createAsyncThunk(
         await summarizer.ready;
       }
 
-      const results = await summarizer.summarize(text);
-      return results;
+      const result = await summarizer.summarize(text, {
+        context: "This is a random text",
+      });
+      return result;
     } catch (error) {
       console.error("Summarization error:", error);
       return rejectWithValue("Error summarizing text");
