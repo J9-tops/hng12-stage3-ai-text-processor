@@ -21,14 +21,6 @@ body {
   text-transform: uppercase;
 }
 
-.grid-layout {
-  grid-template-columns: 0.5fr 2fr;
-  grid-template-rows: 80px 1fr;
-  grid-template-areas:
-    "sidebar header "
-    "sidebar main";
-}
-
 .right {
   position: relative;
   text-align: right;

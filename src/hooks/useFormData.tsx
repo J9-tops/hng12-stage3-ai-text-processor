@@ -46,30 +46,27 @@ const useFormData = (text: string = "", responseId: number = 0) => {
         targetLang: newTargetLang,
       }),
     ).then((result) => {
-      if (result.payload) {
-        if (result.payload && typeof result.payload === "string") {
-          setTranslatedText(result.payload);
-        }
-      }
+      dispatch(
+        addMessage({
+          text: result.payload as string,
+          sender: "ai",
+          language: selectedLanguage,
+        }),
+      );
     });
   };
 
   const handleSummarize = () => {
-    const langCode = "en";
     setTimeout(async () => {
-      const result = await dispatch(summarizeText(message));
-      console.log("result", result);
-      const summarizedText = result.payload as string;
-
-      if (summarizedText) {
+      await dispatch(summarizeText(message)).then((result) =>
         dispatch(
           addMessage({
-            text: summarizedText,
+            text: result.payload as string,
             sender: "ai",
-            language: langCode,
+            language: selectedLanguage,
           }),
-        );
-      }
+        ),
+      );
     }, 500);
   };
 

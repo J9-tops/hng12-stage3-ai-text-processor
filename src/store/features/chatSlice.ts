@@ -78,7 +78,7 @@ export const detectLanguage = createAsyncThunk(
 
 export const summarizeText = createAsyncThunk(
   "chat/summarizeText",
-  async (text: string, { rejectWithValue }) => {
+  async (text: string) => {
     try {
       if (!("ai" in self) || !("summarizer" in self.ai)) {
         return "Summarizer not supported";
@@ -117,17 +117,14 @@ export const summarizeText = createAsyncThunk(
       return results;
     } catch (error) {
       console.error("Summarization error:", error);
-      return rejectWithValue("Error summarizing text");
+      return "Error summarizing text";
     }
   },
 );
 
 export const translateText = createAsyncThunk(
   "chat/translateText",
-  async (
-    { text, sourceLang, targetLang }: TTranslatorOptions,
-    { rejectWithValue },
-  ) => {
+  async ({ text, sourceLang, targetLang }: TTranslatorOptions) => {
     if (!("ai" in self) || !("translator" in self.ai)) {
       return "Translator not supported";
     }
@@ -140,9 +137,7 @@ export const translateText = createAsyncThunk(
       );
 
       if (capabilities.available === "no") {
-        return rejectWithValue(
-          "Translation unavailable for the selected languages",
-        );
+        return "Translation unavailable for the selected languages";
       }
 
       let translator;
@@ -171,7 +166,7 @@ export const translateText = createAsyncThunk(
       return { translatedText, targetLang };
     } catch (error) {
       console.error("Translation error:", error);
-      return rejectWithValue("Error summarizing text");
+      return "Error translating text";
     }
   },
 );
@@ -209,9 +204,19 @@ const chatSlice = createSlice({
         state.loading = true;
       })
       .addCase(detectLanguage.fulfilled, (state, action) => {
-        state.loading = false;
         const detectedLangText = action.payload;
-        const langCode = detectedLangText.split(": ")[1].split(" ")[0];
+        let langCode = "unknown";
+
+        if (
+          typeof detectedLangText === "string" &&
+          detectedLangText.includes(": ")
+        ) {
+          const parts = detectedLangText.split(": ");
+          if (parts.length > 1 && parts[1].includes(" ")) {
+            langCode = parts[1].split(" ")[0];
+          }
+        }
+        state.loading = false;
         state.messages.push({
           id: state.messages.length + 1,
           text: detectedLangText,
@@ -249,35 +254,30 @@ const chatSlice = createSlice({
         state.loading = true;
         state.error = "";
       })
-      .addCase(
-        translateText.fulfilled,
-        (
-          state,
-          action: PayloadAction<
-            | "Translator not supported"
-            | { payload: undefined; type: "chat/resetTranslation" }
-            | { translatedText: string; targetLang: string }
-          >,
-        ) => {
-          state.loading = false;
+      .addCase(translateText.fulfilled, (state, action) => {
+        state.loading = false;
 
-          if (typeof action.payload === "object" && action.payload !== null) {
-            state.messages.push({
-              id: state.messages.length + 1,
-              text:
-                "translatedText" in action.payload
-                  ? action.payload.translatedText
-                  : "",
-              sender: "ai",
-              language:
-                "targetLang" in action.payload ? action.payload.targetLang : "",
-            });
-          }
-        },
-      )
+        if (typeof action.payload === "object" && action.payload !== null) {
+          state.messages.push({
+            id: state.messages.length + 1,
+            text:
+              "translatedText" in action.payload
+                ? action.payload.translatedText
+                : "",
+            sender: "ai",
+            language:
+              "targetLang" in action.payload ? action.payload.targetLang : "",
+          });
+        }
+      })
       .addCase(translateText.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload as string;
+        state.messages.push({
+          id: state.messages.length + 1,
+          text: action.payload as string,
+          sender: "ai",
+        });
       });
   },
 });
