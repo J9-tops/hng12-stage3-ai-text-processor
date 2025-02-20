@@ -4,6 +4,7 @@ import {
   addMessage,
   detectLanguage,
   resetTranslation,
+  summarizeText,
   translateText,
   updateSubmittedMessage,
 } from "../store/features/chatSlice";
@@ -27,7 +28,9 @@ const useFormData = (text: string = "", responseId: number = 0) => {
   );
 
   const dispatch: AppDispatch = useDispatch();
-  const handleLanguageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleLanguageChange = (
+    event: React.ChangeEvent<HTMLSelectElement>,
+  ) => {
     const newTargetLang = event.target.value;
 
     console.log("newTargetLang", newTargetLang);
@@ -54,9 +57,17 @@ const useFormData = (text: string = "", responseId: number = 0) => {
     });
   };
 
+  const handleSummarize = () => {
+    const langCode = "en";
+    setTimeout(async () => {
+      const result = await dispatch(summarizeText(message)).unwrap();
+      dispatch(addMessage({ text: result, sender: "ai", language: langCode }));
+    }, 500);
+  };
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-
+    setMessage("");
     if (!message.trim()) return;
     let langCode = "en";
 
@@ -80,11 +91,6 @@ const useFormData = (text: string = "", responseId: number = 0) => {
         setSourceLanguage(langCode);
       }
 
-      // const result = await dispatch(summarizeText(message)).unwrap();
-      // dispatch(
-      //   addMessage({ text: result, sender: "ai", language: langCode }),
-      // );
-
       dispatch(addMessage({ text: message, sender: "ai", language: langCode }));
     }, 500);
   };
@@ -98,6 +104,7 @@ const useFormData = (text: string = "", responseId: number = 0) => {
     translatedText,
     selectedLanguage,
     sourceLanguage,
+    handleSummarize,
   };
 };
 

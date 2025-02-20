@@ -15,7 +15,7 @@ const ChatArea = () => {
           <Response key={msg.id} text={msg.text} responseId={msg.id} />
         ),
       )}
-      {loading && <Response text="Detecting language..." responseId={0} />}
+      {loading && <Response text="Loading ..." responseId={0} />}
     </div>
   );
 };

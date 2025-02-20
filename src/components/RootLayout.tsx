@@ -1,14 +1,10 @@
 import { Outlet } from "react-router-dom";
-import useMenu from "../hooks/useMenu";
 import Header from "./Header";
-import Sidebar from "./Sidebar";
 
 const RootLayout = () => {
-  const { openMenu, toggleMenu } = useMenu();
   return (
-    <div className="grid-layout mdlg:grid flex min-h-screen flex-col">
-      <Header toggleMenu={toggleMenu} />
-      <Sidebar openMenu={openMenu} toggleMenu={toggleMenu} />
+    <div className="mx-auto flex min-h-screen max-w-[80rem] flex-col border-r border-l border-solid border-slate-500 shadow-2xl">
+      <Header />
       <Outlet />
     </div>
   );

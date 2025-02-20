@@ -1,14 +1,13 @@
 import { MdOpenInNew } from "react-icons/md";
 import { Link } from "react-router-dom";
-import { TMenuProps } from "../types";
 import Button from "./Button";
 import PreviousChat from "./PreviousChat";
 import logo from "/Logo.png";
 
-const Sidebar = ({ openMenu, toggleMenu }: TMenuProps) => {
+const Sidebar = () => {
   return (
     <aside
-      className={`sidebar mdlg:relative mdlg:left-0 mdlg:block mdlg:w-full absolute top-0 z-50 flex h-screen w-screen ${openMenu ? "left-0" : "-left-full"}`}
+      className={`sidebar mdlg:relative mdlg:left-0 mdlg:block mdlg:w-full absolute top-0 z-50 flex h-screen w-screen`}
     >
       <nav className="bg-greyish2 border-greyish3 mdlg:w-full h-full w-[80%] border-r border-solid">
         <header className="border-greyish3 mdlg:h-[80px] flex items-center justify-between border-b border-solid px-6 py-4">
@@ -24,11 +23,6 @@ const Sidebar = ({ openMenu, toggleMenu }: TMenuProps) => {
           <PreviousChat text="How to be a better person?" link="#" />
         </div>
       </nav>
-
-      <div
-        className="mdlg:hidden w-[20%] bg-transparent backdrop-blur-[2px]"
-        onClick={toggleMenu}
-      ></div>
     </aside>
   );
 };

@@ -14,13 +14,14 @@ const Response = ({ text, responseId }: Props) => {
     .toLowerCase()
     .startsWith("detected language:");
 
-  const { originalText, handleLanguageChange } = useFormData(text, responseId);
+  const { originalText, handleLanguageChange, handleSummarize } = useFormData(
+    text,
+    responseId,
+  );
 
   const messages = useSelector((state: RootState) => state.chat.messages);
   const response = messages.find((msg) => msg.id === responseId);
   const detectedLanguage = response?.language;
-
-  // const [chosenTranslate, setChosenTranslate] = useState(false);
 
   console.log(detectedLanguage, "response");
 
@@ -37,35 +38,42 @@ const Response = ({ text, responseId }: Props) => {
                     <div className="left w-[70%] border border-solid border-gray-200 bg-gray-200 p-2 break-words">
                       <p className="sentence-case mb-2">{originalText}</p>
                       {!isDetectionMessage && (
-                        <div>
-                          <Button>Translate</Button>
-                          <Button>Summarize</Button>
-                          <p>Translate to</p>
-                          <form className="flex flex-wrap gap-3">
-                            {LANGUAGES.map(({ id, label, value }) => {
-                              return (
-                                <label key={id} htmlFor={id}>
-                                  <input
-                                    type="radio"
-                                    id={id}
+                        <div className="flex justify-between pt-2">
+                          {text.length > 150 && (
+                            <Button
+                              onClick={handleSummarize}
+                              className="cursor-pointer rounded-lg bg-slate-400 p-2 text-white shadow-[0_3px_5px_rgba(0,0,0,0.6)] transition-all duration-300 ease-in-out hover:shadow-none"
+                            >
+                              Summarize
+                            </Button>
+                          )}
+                          <div className="ml-auto flex items-center gap-1">
+                            <p>Translate to: </p>
+
+                            <select
+                              name="languages"
+                              id="language-select"
+                              title="Select a language to translate to"
+                              value={detectedLanguage || ""}
+                              onChange={handleLanguageChange}
+                              className="border-slate-600-500 rounded-lg border border-solid bg-slate-300 p-1 backdrop-blur-2xl"
+                            >
+                              <option value="" disabled>
+                                Translate to:{" "}
+                              </option>
+                              {LANGUAGES.map(({ id, label, value }) => {
+                                return (
+                                  <option
+                                    key={id}
                                     value={value}
-                                    name={`language-${responseId}`}
-                                    checked={detectedLanguage === value}
-                                    onChange={handleLanguageChange}
-                                  />
-                                  <p
-                                    className={`w-fit cursor-pointer rounded-2xl px-1.5 py-0.5 ${
-                                      detectedLanguage === value
-                                        ? "bg-blue-500 text-white"
-                                        : "bg-greyish3"
-                                    }`}
+                                    className="opacity-35"
                                   >
                                     {label}
-                                  </p>
-                                </label>
-                              );
-                            })}
-                          </form>
+                                  </option>
+                                );
+                              })}
+                            </select>
+                          </div>{" "}
                         </div>
                       )}
                     </div>

@@ -17,6 +17,7 @@ type ChatState = {
   language: string;
   submittedMessage: string;
   summarizedText?: string;
+  chosenTranslate: boolean;
 };
 
 const initialState: ChatState = {
@@ -26,6 +27,7 @@ const initialState: ChatState = {
   language: "en",
   submittedMessage: "",
   loading: false,
+  chosenTranslate: false,
 };
 
 export const detectLanguage = createAsyncThunk(
@@ -200,6 +202,9 @@ const chatSlice = createSlice({
     updateSubmittedMessage: (state, action) => {
       state.submittedMessage = action.payload;
     },
+    toggleTranslate: (state, action) => {
+      state.chosenTranslate = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -282,5 +287,6 @@ export const {
   setSelectedLanguage,
   resetTranslation,
   updateSubmittedMessage,
+  toggleTranslate,
 } = chatSlice.actions;
 export default chatSlice.reducer;
