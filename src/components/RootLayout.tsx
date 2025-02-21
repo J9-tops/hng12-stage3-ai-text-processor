@@ -3,11 +3,10 @@ import Header from "./Header";
 
 const RootLayout = () => {
   return (
-    <div className="max-w-[80rem] lg:mx-auto lg:border-r lg:border-l lg:border-solid lg:border-slate-500">
+    <div className="h-full max-w-[80rem] lg:mx-auto lg:border-r lg:border-l lg:border-solid lg:border-green-500">
       <Header />
-      <div className="flex lg:block">
-        <Outlet />
-      </div>
+
+      <Outlet />
     </div>
   );
 
