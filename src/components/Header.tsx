@@ -1,5 +1,4 @@
 import { IoTrashBinOutline } from "react-icons/io5";
-import { RxAvatar } from "react-icons/rx";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { resetChat } from "../store/features/chatSlice";
@@ -29,7 +28,7 @@ const Header = () => {
         </Link>
         {messages.length > 1 && (
           <Button
-            className="xs:absolute xs:top-30 z-50 text-2xl hover:text-red-500 lg:relative lg:top-0"
+            className="text-2xl hover:text-red-500"
             title="Delete all messages"
             ariaLabel="delet all messages"
             onClick={deleteMessages}
@@ -37,9 +36,6 @@ const Header = () => {
             <IoTrashBinOutline />
           </Button>
         )}
-        <div aria-label="user icon">
-          <RxAvatar className="cursor-pointer text-3xl" />
-        </div>
       </section>
     </header>
   );

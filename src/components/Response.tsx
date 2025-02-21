@@ -41,9 +41,6 @@ const Response = ({ text, responseId }: Props) => {
   const currentLanguage =
     check && detectedLanguage && getLanguageName(detectedLanguage);
 
-  console.log(currentLanguage, "currentlang");
-  console.log(check, "check");
-
   return (
     <article className="text-token-text-primary w-full focus-visible:outline-2 focus-visible:outline-offset-[-4px]">
       <p className="sr-only">BearAI said:</p>
