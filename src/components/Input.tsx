@@ -1,3 +1,4 @@
+import { useEffect, useRef } from "react";
 import { IoIosSend } from "react-icons/io";
 import useFormData from "../hooks/useFormData";
 import Button from "./Button";
@@ -12,12 +13,18 @@ const Input = () => {
     }
   };
 
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
+
+  useEffect(() => {
+    textareaRef.current?.focus();
+  }, []);
   return (
     <form
       onSubmit={handleSubmit}
       className="border-greyish3 relative flex-1 border-t border-solid px-6 py-2 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.1)]"
     >
       <textarea
+        ref={textareaRef}
         autoFocus
         rows={2}
         value={message}
