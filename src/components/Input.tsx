@@ -15,7 +15,7 @@ const Input = () => {
   return (
     <form
       onSubmit={handleSubmit}
-      className="border-greyish3 relative flex w-full border-t border-solid px-6 py-4 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.1)]"
+      className="border-greyish3 relative w-full border-t border-b border-solid px-6 py-4 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.1)]"
     >
       <textarea
         autoFocus
@@ -23,7 +23,7 @@ const Input = () => {
         value={message}
         onChange={(e) => setMessage(e.target.value)}
         placeholder="Enter your text ..."
-        className="border-greyish3 scrollbar-thin scrollbar-track-transparent scrollbar-thumb-transparent w-full rounded-2xl border border-solid p-2 pr-13 shadow-lg [&::-webkit-scrollbar]:hidden"
+        className="border-greyish3 scrollbar-thin scrollbar-track-transparent scrollbar-thumb-transparent w-full resize-none rounded-2xl border border-solid p-2 pr-13 shadow-lg [&::-webkit-scrollbar]:hidden"
         onKeyDown={handleKeyDown}
       />
       <Button
