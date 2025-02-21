@@ -3,7 +3,7 @@ import Input from "../components/Input";
 
 const ChatLayout = () => {
   return (
-    <main className="xs:h-[95%] xslg:h-full xsmd:h-auto mx-auto flex flex-col md:w-full">
+    <main className="xs:h-[95%] xslg:h-full mx-auto flex flex-col md:w-full">
       <div className="flex h-full overflow-y-auto">
         <Outlet />
       </div>
