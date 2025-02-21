@@ -12,7 +12,13 @@
   --breakpoint-mdlg: 900px;
 }
 
-body {
+html,
+body,
+#root {
+  height: 100%;
+}
+
+/* body {
   height: 100vh;
   overflow-x: hidden;
   overflow-y: hidden;
@@ -20,7 +26,7 @@ body {
 
 #root {
   height: 100%;
-}
+} */
 
 .last-center {
   text-align-last: center;
