@@ -16,7 +16,7 @@ const Header = () => {
 
   return (
     <header
-      className="border-greyish sticky top-0 z-50 max-h-15 w-full border-b border-solid bg-white shadow-lg"
+      className="border-greyish xsmd:sticky xs:fixed top-0 z-50 max-h-15 w-full border-b border-solid bg-white shadow-lg"
       aria-label="bear ai header"
     >
       <section className="flex items-center justify-between px-8 py-3">
