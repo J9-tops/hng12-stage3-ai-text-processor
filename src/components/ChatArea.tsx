@@ -8,7 +8,7 @@ const ChatArea = () => {
 
   return (
     <section
-      className="mdlg:w-full xxs:pt-[130px] h-[calc(100vh-60px-99px)] w-screen overflow-x-hidden overflow-y-auto px-5 py-4 lg:pt-0"
+      className="mdlg:w-full h-[calc(100vh-60px-99px)] w-screen overflow-x-hidden overflow-y-auto px-5 py-4 lg:pt-0"
       aria-labelledby="chat area"
       tabIndex={0}
       role="region"
