@@ -18,12 +18,10 @@ body,
   height: 100%;
 }
 
-/* body {
-  height: 100vh;
-  overflow-x: hidden;
-  overflow-y: hidden;
+body {
+  overflow: hidden;
 }
-
+/*
 #root {
   height: 100%;
 } */
