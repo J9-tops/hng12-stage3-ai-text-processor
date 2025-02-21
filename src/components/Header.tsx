@@ -16,10 +16,10 @@ const Header = () => {
 
   return (
     <header
-      className="border-greyish max-h-15 w-full border-b border-solid"
+      className="border-greyish sticky top-0 z-50 max-h-15 w-full border-b border-solid bg-white shadow-lg"
       aria-label="bear ai header"
     >
-      <section className="border-greyish flex items-center justify-between border-0 border-b border-solid px-8 py-3">
+      <section className="flex items-center justify-between px-8 py-3">
         <Link to="/">
           <img
             src={logo}
