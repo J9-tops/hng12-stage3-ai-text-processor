@@ -2,11 +2,7 @@ import { useState } from "react";
 import { useSelector } from "react-redux";
 import useFormData from "../hooks/useFormData";
 import { RootState } from "../store/store";
-import {
-  formatDetectedLanguage,
-  getLanguageName,
-  LANGUAGES,
-} from "../types/languages";
+import { formatDetectedLanguage, LANGUAGES } from "../types/languages";
 import Button from "./Button";
 
 type Props = {
@@ -36,11 +32,6 @@ const Response = ({ text, responseId }: Props) => {
 
   const outputText = formatDetectedLanguage(originalText);
 
-  const check = response?.language !== undefined && detectedLanguage;
-
-  const currentLanguage =
-    check && detectedLanguage && getLanguageName(detectedLanguage);
-
   return (
     <article className="text-token-text-primary w-full focus-visible:outline-2 focus-visible:outline-offset-[-4px]">
       <p className="sr-only">BearAI said:</p>
@@ -61,13 +52,6 @@ const Response = ({ text, responseId }: Props) => {
                 )}
 
                 <div className="ml-auto flex flex-col gap-4">
-                  {currentLanguage && (
-                    <p className="-mb-2 ml-auto italic">
-                      Text in{" "}
-                      <span className="font-bold">{currentLanguage}</span>
-                    </p>
-                  )}
-
                   <div className="flex items-center gap-1">
                     <p>Translate to:</p>
                     <select
